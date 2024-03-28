@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('template.admin.index');
+// Route::get('/', function () {
+//     return view('pages.produk.index');
+// });
+
+Route::get('/', [LoginController::class, 'login'])->name('login');
+Route::post('/post-login', [LoginController::class, 'postLogin'])->name('postLogin');
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/post-logout', [LoginController::class, 'logOut'])->name('postLogout');
+    
+    Route::group(['middleware' => 'role:superadmin'], function () {
+        Route::get('/dashboard-superadmin', [DashboardController::class, 'dashboard'])->name('superadmin');
+    });
 });

@@ -1,0 +1,1 @@
+<script src="{{ asset('assets') }}/plugins/custom/datatables/datatables.bundle.js"></script>
